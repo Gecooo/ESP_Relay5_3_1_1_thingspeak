@@ -64,6 +64,7 @@ const char pathSwitch[] PROGMEM = "/switch"; // Путь до страницы �
 const char pathSchedule[] PROGMEM = "/schedule"; // Путь до страницы настройки параметров расписания
 const char pathGetSchedule[] PROGMEM = "/getschedule"; // Путь до страницы, возвращающей JSON-пакет элемента расписания
 const char pathSetSchedule[] PROGMEM = "/setschedule"; // Путь до страницы изменения элемента расписания
+const char pathThingspeak[] PROGMEM = "/thingspeak"; // Путь до страницы изменения настроек Thingspeak
 #ifdef USEIRREMOTE
 const char pathIRData[] PROGMEM = "/irdata"; // Путь до страницы, возвращающей JSON-пакет данных о последней нажатой кнопке пульта ДУ
 #endif
