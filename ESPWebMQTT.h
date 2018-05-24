@@ -20,6 +20,10 @@ const char paramMQTTUser[] PROGMEM = "mqttuser";
 const char paramMQTTPassword[] PROGMEM = "mqttpswd";
 const char paramMQTTClient[] PROGMEM = "mqttclient";
 
+const char paramThingspeakchannelApi[] PROGMEM = "writeapikey";
+const char paramThingspeakChannelID[] PROGMEM = "channel_id";
+
+
 class ESPWebMQTTBase : public ESPWebBase { // Расширение базового класса с поддержкой MQTT
 public:
   ESPWebMQTTBase();
@@ -56,6 +60,9 @@ protected:
   String _mqttUser; // Имя пользователя для авторизации
   String _mqttPassword; // Пароль для авторизации
   String _mqttClient; // Имя клиента для MQTT-брокера (используется при формировании имени топика для публикации в целях различия между несколькими клиентами с идентичным скетчем)
+
+  String _writeApikey;  // Thingspeak writeApi Key
+  uint16_t _thingspeakChannelID;
 };
 
 #endif

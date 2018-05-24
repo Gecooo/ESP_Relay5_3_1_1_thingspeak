@@ -188,10 +188,10 @@ page += F("<h3>MQTT Setup</h3>\n\
   </td><td valign=\"top\">\n");
    page += F("<h3>Thingspeak Setup</h3><br>\n\
   <label>CHANNEL WRITEAPIKEY:</label><br>\n");
-  page += ESPWebBase::tagInput(FPSTR(typeText), FPSTR(paramMQTTServer), _mqttServer, String(F("maxlength=")) + String(maxStringLen));
+  page += ESPWebBase::tagInput(FPSTR(typeText), FPSTR(paramThingspeakchannelApi), _writeApikey, String(F("maxlength=")) + String(maxStringLen));
   page += F("<br/>\n\
   <label>CHANNEL ID:</label><br/>\n");
-   page += ESPWebBase::tagInput(FPSTR(typeText), FPSTR(paramMQTTUser), _mqttUser, String(F("maxlength=")) + String(maxStringLen));
+   page += ESPWebBase::tagInput(FPSTR(typeText), FPSTR(paramThingspeakChannelID), String(_thingspeakChannelID), F("maxlength=6"));
    page += F("<br/></td></tr></table><p>\n");
   /////////////////////////////////////////
 
