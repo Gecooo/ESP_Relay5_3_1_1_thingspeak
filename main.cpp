@@ -157,17 +157,19 @@ const char jsonTemperature2[] PROGMEM = "temperature2";
 const char jsonLDR[] PROGMEM = "ldr";
 #endif
 #ifdef USEDSERIAL
+const char json2Temp[] PROGMEM = "2temp";
 const char jsonTemp[] PROGMEM = "temp";
 const char jsonTemp1[] PROGMEM = "temp1";
 const char jsonTemp_hdc1080[] PROGMEM = "temp_hdc1080";
 const char jsonHottemp[] PROGMEM = "Hottemp";
+const char jsonHottemp2[] PROGMEM = "Hottemp2";
 const char jsonUptemp[] PROGMEM = "Uptemp";
 const char jsonSeredtemp[] PROGMEM = "Seredtemp";
 const char jsonNiztemp[] PROGMEM = "Niztemp";
 const char jsonHum_compens[] PROGMEM = "hum_compens";
 const char jsonHum_compens1[] PROGMEM = "hum_compens1";
 const char jsonHum_hdc1080[] PROGMEM = "hum_hdc1080";
-float temp, temp1, temp_hdc1080, Hottemp, Uptemp, Seredtemp, Niztemp, hum_compens, hum_compens1, hum_hdc1080;
+float temp, temp1, temp_hdc1080, Hottemp, Hottemp2, Uptemp, Seredtemp, Niztemp, hum_compens, hum_compens1, hum_hdc1080;
 long times;
 uint8_t output, output2;
 int8_t setpoint, setpoint2;
@@ -643,7 +645,7 @@ void ESPWebMQTTRelay::loopExtra() {
 #ifdef USEDSERIAL
 if (Serial.available()) {
     String inByte = Serial.readStringUntil('\n');
-    const size_t bufferSize = JSON_ARRAY_SIZE(3) + JSON_ARRAY_SIZE(7) + JSON_OBJECT_SIZE(4) + 120;
+    const size_t bufferSize = JSON_ARRAY_SIZE(3) + JSON_ARRAY_SIZE(8) + JSON_OBJECT_SIZE(4) + 120;
 DynamicJsonBuffer jsonBuffer(bufferSize);
     //StaticJsonBuffer<200> jsonBuffer;
    // const size_t bufferSize = 3*JSON_ARRAY_SIZE(2) + JSON_OBJECT_SIZE(5) + 90;
@@ -652,6 +654,7 @@ JsonObject& root = jsonBuffer.parseObject(inByte);
 
    
   String sensor = root["sensor"];                           // достаем имя, 
+  String timesserial = root["time"];
  
 //  times = root["time"];
 //  tempK = root["data"][0];                   // достаем температуру из структуры main
@@ -671,10 +674,9 @@ JsonObject& root = jsonBuffer.parseObject(inByte);
  Uptemp = temperatura[4]; // 56.5
  Seredtemp = temperatura[5]; // 56.5
  Niztemp = temperatura[6]; // 56.5
+ Hottemp2 = temperatura[7]; // 56.5
  
- 
-
-JsonArray& humidity = root["humidity"];
+ JsonArray& humidity = root["humidity"];
 hum_compens = humidity[0]; // 80.1
 hum_compens1 = humidity[1]; // 99.5
 hum_hdc1080 = humidity[2]; // 99.6
@@ -1172,6 +1174,10 @@ Humidity (DHT): <span id=\"");
   page += FPSTR(jsonHottemp);
   page += F("\">?</span><sup>o</sup>C<br/>\n");
 
+  page += F("Hottemp2: <span id=\"");
+  page += FPSTR(jsonHottemp2);
+  page += F("\">?</span><sup>o</sup>C<br/>\n");
+
   page += F("Uptemp: <span id=\"");
   page += FPSTR(jsonUptemp);
   page += F("\">?</span><sup>o</sup>C<br/>\n");
@@ -1296,6 +1302,11 @@ String ESPWebMQTTRelay::jsonData() {
   result += FPSTR(jsonHottemp);
   result += F("\":");
   result += String(Hottemp);//источник
+
+  result += F(",\"");
+  result += FPSTR(jsonHottemp2);
+  result += F("\":");
+  result += String(Hottemp2);//источник
 
   result += F(",\"");
   result += FPSTR(jsonUptemp);
@@ -1490,6 +1501,12 @@ else\n");
   script += FPSTR(jsonHottemp);
   script += F("').innerHTML = data.");
   script += FPSTR(jsonHottemp);
+  script += F(";\n");
+
+  script += FPSTR(getElementById);
+  script += FPSTR(jsonHottemp2);
+  script += F("').innerHTML = data.");
+  script += FPSTR(jsonHottemp2);
   script += F(";\n");
 
   script += FPSTR(getElementById);
